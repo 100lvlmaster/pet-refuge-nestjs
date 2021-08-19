@@ -65,6 +65,7 @@ model Post {
   updatedAt DateTime @updatedAt
   published Boolean
   title     String
+  content   String?
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?
 }

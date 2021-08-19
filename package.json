@@ -8,14 +8,15 @@
     "NestJS",
     "Prisma",
     "Prisma Client",
-    "Typescript"
+    "Typescript",
+    "Ecommerce"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example.git"
+    "url": "https://github.com/100lvlmaster/pet-refuge-nestjs.git"
   },
   "bugs": {
-    "url": "https://github.com/fivethree-team/nestjs-prisma-client-example/issues"
+    "url": "https://github.com/100lvlmaster/pet-refuge-nestjs/issues"
   },
   "scripts": {
     "prebuild": "rimraf dist",
