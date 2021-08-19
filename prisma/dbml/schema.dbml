@@ -3,7 +3,7 @@
 //// ------------------------------------------------------
 
 Table User {
-  id String [pk]
+  id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   email String [unique, not null]
@@ -13,11 +13,11 @@ Table User {
   posts Post [not null]
   role Role [not null]
   Store Store
-  storeId String
+  storeId Int
 }
 
 Table Store {
-  id String [pk]
+  id Int [pk, increment]
   name String [not null]
   description String
   address String [not null]
@@ -28,7 +28,7 @@ Table Store {
 }
 
 Table Category {
-  id String [pk]
+  id Int [pk, increment]
   name String [not null]
   description String [not null]
   mediaUrl String [not null]
@@ -38,7 +38,7 @@ Table Category {
 }
 
 Table Product {
-  id String [pk]
+  id Int [pk, increment]
   name String [not null]
   description String [not null]
   price Float [not null]
@@ -47,20 +47,20 @@ Table Product {
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [default: `now()`, not null]
   category Category [not null]
-  categoryId String [not null]
+  categoryId Int [not null]
   store Store [not null]
-  storeId String [not null]
+  storeId Int [not null]
 }
 
 Table Post {
-  id String [pk]
+  id Int [pk, increment]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
   published Boolean [not null]
   title String [not null]
   content String
   author User
-  authorId String
+  authorId Int
 }
 
 Enum Role {

@@ -14,18 +14,18 @@ export class CategoryService {
     return this.prisma.category.findMany();
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     return this.prisma.category.findFirst({ where: { id: id } });
   }
 
-  update(id: string, updateCategoryInput: UpdateCategoryInput) {
+  update(id: number, updateCategoryInput: UpdateCategoryInput) {
     return this.prisma.category.update({
       where: { id: id },
       data: updateCategoryInput,
     });
   }
 
-  remove(id: string) {
+  remove(id: number) {
     return this.prisma.category.delete({ where: { id: id } });
   }
 }

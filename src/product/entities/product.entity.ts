@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
-import { BaseModel } from './base.model';
-import { Category } from './category.model';
-import { Store } from './store.model';
+import { BaseModel } from '../../models/base.model';
+import { Category } from '../../models/category.model';
+import { Store } from '../../models/store.model';
 @ObjectType()
 export class Product extends BaseModel {
   name: string;

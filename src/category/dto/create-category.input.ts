@@ -10,12 +10,8 @@ export class CreateCategoryInput {
   @IsNotEmpty()
   description: string;
 
-  @Field()
+  @Field(() => [String])
   @IsNotEmpty()
   @IsArray()
   mediaUrl: string[];
-
-  @Field()
-  @IsNotEmpty()
-  productId: string;
 }

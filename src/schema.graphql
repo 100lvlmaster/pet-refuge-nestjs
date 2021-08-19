@@ -11,14 +11,43 @@ type Auth {
   user: User!
 }
 
+type Category {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  description: String!
+  id: ID!
+  mediaUrl: [String!]!
+  name: String!
+  products: [Product!]
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
 }
 
+input CreateCategoryInput {
+  description: String!
+  mediaUrl: [String!]!
+  name: String!
+}
+
 input CreatePostInput {
   content: String!
   title: String!
+}
+
+input CreateProductInput {
+  categoryId: String!
+  description: String!
+  discount: Float!
+  mediaUrl: [String!]!
+  name: String!
+  price: Float!
+  storeId: String!
 }
 
 """Date custom scalar type"""
@@ -31,10 +60,16 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createPost(data: CreatePostInput!): Post!
+  createProduct(createProductInput: CreateProductInput!): Product!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
+  removeCategory(id: String!): Category!
+  removeProduct(id: Int!): Product!
   signup(data: SignupInput!): Auth!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateUser(data: UpdateUserInput!): User!
 }
 
@@ -93,10 +128,29 @@ enum PostOrderField {
   updatedAt
 }
 
+type Product {
+  category: Category!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  description: String!
+  discount: Int!
+  id: ID!
+  mediaUrl: [String!]!
+  name: String!
+  price: Int!
+  store: Store!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
 type Query {
+  category(id: String!): Category!
   hello(name: String!): String!
   me: User!
   post(postId: String!): Post!
+  product(id: Int!): Product!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
   userPosts(userId: String!): [Post!]!
 }
@@ -114,12 +168,45 @@ input SignupInput {
   password: String!
 }
 
+type Store {
+  address: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  description: String!
+  id: ID!
+  name: String!
+  products: [Product!]!
+  staff: [User!]!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+}
+
 type Token {
   """JWT access token"""
   accessToken: String!
 
   """JWT refresh token"""
   refreshToken: String!
+}
+
+input UpdateCategoryInput {
+  description: String
+  id: String!
+  mediaUrl: [String!]
+  name: String
+}
+
+input UpdateProductInput {
+  categoryId: String
+  description: String
+  discount: Float
+  id: Int!
+  mediaUrl: [String!]
+  name: String
+  price: Float
+  storeId: String
 }
 
 input UpdateUserInput {
@@ -136,6 +223,7 @@ type User {
   lastname: String
   posts: [Post!]!
   role: Role!
+  store: Store
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
