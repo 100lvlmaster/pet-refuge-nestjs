@@ -22,6 +22,8 @@ model User {
   lastname  String?
   posts     Post[]
   role      Role
+  Store     Store?   @relation(fields: [storeId], references: [id])
+  storeId   String?
 }
 
 model Store {
@@ -32,6 +34,7 @@ model Store {
   updatedAt   DateTime  @default(now())
   createdAt   DateTime  @default(now())
   Product     Product[]
+  staff       User[]
 }
 
 model Category {
@@ -48,7 +51,7 @@ model Product {
   id          String   @id @default(cuid())
   name        String
   description String
-  price       Int
+  price       Float
   discount    Float
   mediaUrl    String[]
   createdAt   DateTime @default(now())

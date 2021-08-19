@@ -12,6 +12,8 @@ Table User {
   lastname String
   posts Post [not null]
   role Role [not null]
+  Store Store
+  storeId String
 }
 
 Table Store {
@@ -22,6 +24,7 @@ Table Store {
   updatedAt DateTime [default: `now()`, not null]
   createdAt DateTime [default: `now()`, not null]
   Product Product [not null]
+  staff User [not null]
 }
 
 Table Category {
@@ -38,7 +41,7 @@ Table Product {
   id String [pk]
   name String [not null]
   description String [not null]
-  price Int [not null]
+  price Float [not null]
   discount Float [not null]
   mediaUrl String [not null]
   createdAt DateTime [default: `now()`, not null]
@@ -55,6 +58,7 @@ Table Post {
   updatedAt DateTime [not null]
   published Boolean [not null]
   title String [not null]
+  content String
   author User
   authorId String
 }
@@ -63,6 +67,8 @@ Enum Role {
   ADMIN
   USER
 }
+
+Ref: User.storeId > Store.id
 
 Ref: Product.categoryId > Category.id
 

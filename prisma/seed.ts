@@ -1,59 +1,107 @@
 import { PrismaClient } from '@prisma/client';
 import * as dotenv from 'dotenv';
-
+import * as faker from 'faker';
 const prisma = new PrismaClient();
+const fakerRounds = 40;
 
-async function main() {
+const main = async (): Promise<number> => {
   dotenv.config();
-  await prisma.user.deleteMany();
-  await prisma.post.deleteMany();
+  for (let i = 0; i <= fakerRounds; i++) {
+    await seedStore();
+  }
+  for (let i = 0; i <= fakerRounds; i++) {
+    await seedCategory();
+  }
+  for (let i = 0; i <= fakerRounds; i++) {
+    await seedProduct();
+  }
+  for (let i = 0; i <= fakerRounds; i++) {
+    await seedUser();
+  }
+  return fakerRounds;
+};
 
-  console.log('Seeding...');
-
-  const user1 = await prisma.user.create({
-    data: {
-      email: 'lisa@simpson.com',
-      firstname: 'Lisa',
-      lastname: 'Simpson',
-      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
-      role: 'USER',
-      posts: {
-        create: {
-          title: 'Join us for Prisma Day 2019 in Berlin',
-          content: 'https://www.prisma.io/day/',
-          published: true,
-        },
+/// User
+const seedUser = async () => {
+  const stores = await prisma.store.findMany();
+  try {
+    await prisma.user.create({
+      data: {
+        firstname: faker.name.firstName(),
+        lastname: faker.name.lastName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        role: faker.random.arrayElement(['ADMIN', 'USER']),
+        storeId: faker.random.arrayElement(stores).id,
       },
-    },
-  });
-  const user2 = await prisma.user.create({
-    data: {
-      email: 'bart@simpson.com',
-      firstname: 'Bart',
-      lastname: 'Simpson',
-      role: 'ADMIN',
-      password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
-      posts: {
-        create: [
-          {
-            title: 'Subscribe to GraphQL Weekly for community news',
-            content: 'https://graphqlweekly.com/',
-            published: true,
-          },
-          {
-            title: 'Follow Prisma on Twitter',
-            content: 'https://twitter.com/prisma',
-            published: false,
-          },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/// Store
+const seedStore = async () => {
+  try {
+    await prisma.store.create({
+      data: {
+        name: faker.company.companyName(),
+        description: faker.company.catchPhraseDescriptor(),
+        address: faker.address.streetAddress(),
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+/// Category
+const seedCategory = async () => {
+  try {
+    await prisma.category.create({
+      data: {
+        name: faker.commerce.productMaterial(),
+        description: faker.commerce.productDescription(),
+        mediaUrl: [
+          faker.image.business(),
+          faker.image.business(),
+          faker.image.business(),
         ],
       },
-    },
-  });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  console.log({ user1, user2 });
-}
-
+/// Product
+const seedProduct = async () => {
+  try {
+    const stores = await prisma.store.findMany();
+    const categories = await prisma.category.findMany();
+    await prisma.product.create({
+      data: {
+        name: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: +faker.commerce.price(),
+        discount: faker.datatype.number({ min: 4, max: 30 }),
+        mediaUrl: [
+          faker.image.business(),
+          faker.image.business(),
+          faker.image.business(),
+        ],
+        categoryId: faker.random.arrayElement(categories).id,
+        storeId: faker.random.arrayElement(stores).id,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 main()
+  .then((e) => {
+    console.log(e);
+  })
   .catch((e) => console.error(e))
   .finally(async () => {
     await prisma.$disconnect();
