@@ -1,7 +1,7 @@
-import { PrismaService } from './../../prisma/prisma.service';
-import { PaginationArgs } from '../../common/pagination/pagination.args';
-import { PostIdArgs } from '../../models/args/post-id.args';
-import { UserIdArgs } from '../../models/args/user-id.args';
+import { PrismaService } from '../prisma/prisma.service';
+import { PaginationArgs } from '../common/pagination/pagination.args';
+import { PostIdArgs } from '../models/args/post-id.args';
+import { UserIdArgs } from '../models/args/user-id.args';
 import {
   Resolver,
   Query,
@@ -10,8 +10,8 @@ import {
   ResolveField,
   Mutation,
 } from '@nestjs/graphql';
-import { Post } from '../../models/post.model';
-import { PostOrder } from '../../models/inputs/post-order.input';
+import { Post } from '../models/post.model';
+import { PostOrder } from '../models/inputs/post-order.input';
 import { PostConnection } from 'src/models/pagination/post-connection.model';
 import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
 import { CreatePostInput } from './dto/createPost.input';
