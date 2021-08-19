@@ -8,30 +8,21 @@ import {
   Parent,
   Args,
   ResolveField,
-  Subscription,
   Mutation,
 } from '@nestjs/graphql';
 import { Post } from '../../models/post.model';
 import { PostOrder } from '../../models/inputs/post-order.input';
 import { PostConnection } from 'src/models/pagination/post-connection.model';
 import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
-import { PubSub } from 'graphql-subscriptions/';
 import { CreatePostInput } from './dto/createPost.input';
 import { UserEntity } from 'src/decorators/user.decorator';
 import { User } from 'src/models/user.model';
 import { GqlAuthGuard } from 'src/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 
-const pubSub = new PubSub();
-
 @Resolver(() => Post)
 export class PostResolver {
   constructor(private prisma: PrismaService) {}
-
-  @Subscription(() => Post)
-  postCreated() {
-    return pubSub.asyncIterator('postCreated');
-  }
 
   @UseGuards(GqlAuthGuard)
   @Mutation(() => Post)
@@ -47,7 +38,6 @@ export class PostResolver {
         authorId: user.id,
       },
     });
-    pubSub.publish('postCreated', { postCreated: newPost });
     return newPost;
   }
 
@@ -91,14 +81,6 @@ export class PostResolver {
     return this.prisma.user
       .findUnique({ where: { id: id.userId } })
       .posts({ where: { published: true } });
-
-    // or
-    // return this.prisma.posts.findMany({
-    //   where: {
-    //     published: true,
-    //     author: { id: id.userId }
-    //   }
-    // });
   }
 
   @Query(() => Post)

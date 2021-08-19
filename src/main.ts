@@ -1,6 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import {
@@ -10,7 +14,10 @@ import {
 } from './configs/config.interface';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
 
   // Validation
   app.useGlobalPipes(new ValidationPipe());
@@ -28,7 +35,6 @@ async function bootstrap() {
       .setVersion(swaggerConfig.version || '1.0')
       .build();
     const document = SwaggerModule.createDocument(app, options);
-
     SwaggerModule.setup(swaggerConfig.path || 'api', app, document);
   }
 

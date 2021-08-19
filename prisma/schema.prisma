@@ -24,13 +24,47 @@ model User {
   role      Role
 }
 
+model Store {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  address     String
+  updatedAt   DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  Product     Product[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  mediaUrl    String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  Product     Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Int
+  discount    Float
+  mediaUrl    String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  store       Store    @relation(fields: [storeId], references: [id])
+  storeId     String
+}
+
 model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   published Boolean
   title     String
-  content   String?
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?
 }
