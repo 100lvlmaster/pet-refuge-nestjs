@@ -66,7 +66,7 @@ type Mutation {
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   removeCategory(id: String!): Category!
-  removeProduct(id: Int!): Product!
+  removeProduct(id: String!): Product!
   signup(data: SignupInput!): Auth!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
@@ -150,7 +150,8 @@ type Query {
   hello(name: String!): String!
   me: User!
   post(postId: String!): Post!
-  product(id: Int!): Product!
+  product(id: ID!): Product!
+  products: [Product!]!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
   userPosts(userId: String!): [Post!]!
 }
@@ -202,7 +203,7 @@ input UpdateProductInput {
   categoryId: String
   description: String
   discount: Float
-  id: Int!
+  id: String!
   mediaUrl: [String!]
   name: String
   price: Float
