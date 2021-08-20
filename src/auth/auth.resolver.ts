@@ -1,4 +1,4 @@
-import { Auth } from './entities/auth.entity';
+import { Auth } from './entities/auth.model';
 import { Token } from '../models/token.model';
 import { LoginInput } from './dto/login.input';
 import {
