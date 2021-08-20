@@ -13,7 +13,7 @@ export class StoreResolver {
     return this.storeService.create(createStoreInput);
   }
 
-  @Query(() => [Store], { name: 'store' })
+  @Query(() => [Store], { name: 'stores' })
   findAll() {
     return this.storeService.findAll();
   }

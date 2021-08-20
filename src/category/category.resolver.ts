@@ -22,7 +22,7 @@ export class CategoryResolver {
     return this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [Category], { name: 'category' })
+  @Query(() => [Category], { name: 'categories' })
   findAll() {
     return this.categoryService.findAll();
   }
