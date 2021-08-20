@@ -14,6 +14,7 @@ Table User {
   role Role [not null]
   Store Store
   storeId String
+  Orders Orders [not null]
 }
 
 Table Store {
@@ -50,6 +51,7 @@ Table Product {
   categoryId String [not null]
   store Store [not null]
   storeId String [not null]
+  Orders Orders [not null]
 }
 
 Table Post {
@@ -61,6 +63,16 @@ Table Post {
   content String
   author User
   authorId String
+}
+
+Table Orders {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  user User [not null]
+  userId String [not null]
+  product Product [not null]
+  productId String [not null]
 }
 
 Enum Role {
@@ -75,3 +87,7 @@ Ref: Product.categoryId > Category.id
 Ref: Product.storeId > Store.id
 
 Ref: Post.authorId > User.id
+
+Ref: Orders.userId > User.id
+
+Ref: Orders.productId > Product.id

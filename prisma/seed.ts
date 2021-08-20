@@ -6,6 +6,12 @@ const fakerRounds = 40;
 
 const main = async (): Promise<number> => {
   dotenv.config();
+
+  await prisma.orders.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.store.deleteMany();
   for (let i = 0; i <= fakerRounds; i++) {
     await seedStore();
   }
@@ -17,6 +23,9 @@ const main = async (): Promise<number> => {
   }
   for (let i = 0; i <= fakerRounds; i++) {
     await seedUser();
+  }
+  for (let i = 0; i <= fakerRounds; i++) {
+    await seedOrders();
   }
   return fakerRounds;
 };
@@ -97,6 +106,17 @@ const seedProduct = async () => {
   } catch (err) {
     console.log(err);
   }
+};
+
+const seedOrders = async () => {
+  const users = await prisma.user.findMany();
+  const products = await prisma.product.findMany();
+  await prisma.orders.create({
+    data: {
+      userId: faker.random.arrayElement(users).id,
+      productId: faker.random.arrayElement(products).id,
+    },
+  });
 };
 main()
   .then((e) => {

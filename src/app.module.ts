@@ -12,6 +12,8 @@ import config from './configs/config';
 import { GraphqlConfig } from './configs/config.interface';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
+import { StoreModule } from './store/store.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -39,6 +41,8 @@ import { ProductModule } from './product/product.module';
     PostModule,
     CategoryModule,
     ProductModule,
+    StoreModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver, DateScalar],

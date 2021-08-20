@@ -35,6 +35,11 @@ input CreateCategoryInput {
   name: String!
 }
 
+input CreateOrderInput {
+  productId: String!
+  userId: String!
+}
+
 input CreatePostInput {
   content: String!
   title: String!
@@ -50,6 +55,12 @@ input CreateProductInput {
   storeId: String!
 }
 
+input CreateStoreInput {
+  address: String!
+  description: String!
+  name: String!
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -61,16 +72,33 @@ input LoginInput {
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createOrder(createOrderInput: CreateOrderInput!): Order!
   createPost(data: CreatePostInput!): Post!
   createProduct(createProductInput: CreateProductInput!): Product!
+  createStore(createStoreInput: CreateStoreInput!): Store!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
   removeCategory(id: String!): Category!
+  removeOrder(id: Int!): Order!
   removeProduct(id: String!): Product!
+  removeStore(id: Int!): Store!
   signup(data: SignupInput!): Auth!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
+  updateStore(updateStoreInput: UpdateStoreInput!): Store!
   updateUser(data: UpdateUserInput!): User!
+}
+
+type Order {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  productId: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+  userId: String!
 }
 
 """
@@ -149,10 +177,12 @@ type Query {
   category(id: String!): Category!
   hello(name: String!): String!
   me: User!
+  order(id: Int!): Order!
   post(postId: String!): Post!
   product(id: ID!): Product!
   products: [Product!]!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
+  store(id: ID!): Store!
   userPosts(userId: String!): [Post!]!
 }
 
@@ -177,7 +207,7 @@ type Store {
   description: String!
   id: ID!
   name: String!
-  products: [Product!]!
+  product: [Product!]!
   staff: [User!]!
 
   """Identifies the date and time when the object was last updated."""
@@ -199,6 +229,12 @@ input UpdateCategoryInput {
   name: String
 }
 
+input UpdateOrderInput {
+  id: ID!
+  productId: String
+  userId: String
+}
+
 input UpdateProductInput {
   categoryId: String
   description: String
@@ -208,6 +244,13 @@ input UpdateProductInput {
   name: String
   price: Float
   storeId: String
+}
+
+input UpdateStoreInput {
+  address: String
+  description: String
+  id: ID!
+  name: String
 }
 
 input UpdateUserInput {
