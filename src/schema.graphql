@@ -167,7 +167,7 @@ type Product {
   mediaUrl: [String!]!
   name: String!
   price: Int!
-  store: Store!
+  store: Store
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!

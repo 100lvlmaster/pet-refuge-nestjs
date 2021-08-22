@@ -9,6 +9,6 @@ export class Product extends BaseModel {
   price: number;
   discount: number;
   mediaUrl: string[];
-  store: Store;
+  store?: Store;
   category: Category;
 }

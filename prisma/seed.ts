@@ -72,9 +72,9 @@ const seedCategory = async () => {
         name: faker.commerce.productMaterial(),
         description: faker.commerce.productDescription(),
         mediaUrl: [
-          faker.image.business(),
-          faker.image.business(),
-          faker.image.business(),
+          faker.image.imageUrl(),
+          faker.image.imageUrl(),
+          faker.image.imageUrl(),
         ],
       },
     });
@@ -95,9 +95,9 @@ const seedProduct = async () => {
         price: +faker.commerce.price(),
         discount: faker.datatype.number({ min: 4, max: 30 }),
         mediaUrl: [
-          faker.image.business(),
-          faker.image.business(),
-          faker.image.business(),
+          faker.image.imageUrl(),
+          faker.image.imageUrl(),
+          faker.image.imageUrl(),
         ],
         categoryId: faker.random.arrayElement(categories).id,
         storeId: faker.random.arrayElement(stores).id,
