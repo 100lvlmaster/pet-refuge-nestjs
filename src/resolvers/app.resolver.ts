@@ -6,4 +6,8 @@ export class AppResolver {
   hello(@Args('name') name: string): string {
     return `Hello ${name}!`;
   }
+  @Query(() => String)
+  helloWorld(): string {
+    return `Hello World!`;
+  }
 }

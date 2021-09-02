@@ -11,6 +11,17 @@ type Auth {
   user: User!
 }
 
+type Cart {
+  """Identifies the date and time when the object was created."""
+  createdAt: Date!
+  id: ID!
+  product: Product!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: Date!
+  user: User!
+}
+
 type Category {
   """Identifies the date and time when the object was created."""
   createdAt: Date!
@@ -27,6 +38,11 @@ type Category {
 input ChangePasswordInput {
   newPassword: String!
   oldPassword: String!
+}
+
+input CreateCartInput {
+  productId: String!
+  userId: String!
 }
 
 input CreateCategoryInput {
@@ -71,6 +87,7 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
+  createCart(createCartInput: CreateCartInput!): Cart!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createPost(data: CreatePostInput!): Post!
@@ -78,11 +95,13 @@ type Mutation {
   createStore(createStoreInput: CreateStoreInput!): Store!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
+  removeCart(id: Int!): Cart!
   removeCategory(id: String!): Category!
   removeOrder(id: ID!): Order!
   removeProduct(id: String!): Product!
   removeStore(id: Int!): Store!
   signup(data: SignupInput!): Auth!
+  updateCart(updateCartInput: UpdateCartInput!): Cart!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
@@ -174,9 +193,11 @@ type Product {
 }
 
 type Query {
+  cart(id: Int!): Cart!
   categories: [Category!]!
   category(id: String!): Category!
   hello(name: String!): String!
+  helloWorld: String!
   me: User!
   order(id: ID!): Order!
   orders: [Order!]!
@@ -223,6 +244,12 @@ type Token {
 
   """JWT refresh token"""
   refreshToken: String!
+}
+
+input UpdateCartInput {
+  id: Int!
+  productId: String
+  userId: String
 }
 
 input UpdateCategoryInput {

@@ -6,7 +6,6 @@ const fakerRounds = 40;
 
 const main = async (): Promise<number> => {
   dotenv.config();
-
   await prisma.orders.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
