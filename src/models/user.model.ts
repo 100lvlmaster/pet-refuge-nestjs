@@ -4,8 +4,8 @@ import { BaseModel } from './base.model';
 import { Store } from 'src/store/entities/store.entity';
 
 export enum Role {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
+  MERCHANT = 'MERCHANT',
+  CUSTOMER = 'CUSTOMER',
 }
 
 registerEnumType(Role, {

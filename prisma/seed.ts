@@ -8,14 +8,10 @@ const main = async (): Promise<number> => {
   dotenv.config();
   await prisma.orders.deleteMany();
   await prisma.product.deleteMany();
-  await prisma.category.deleteMany();
   await prisma.user.deleteMany();
   await prisma.store.deleteMany();
   for (let i = 0; i <= fakerRounds; i++) {
     await seedStore();
-  }
-  for (let i = 0; i <= fakerRounds; i++) {
-    await seedCategory();
   }
   for (let i = 0; i <= fakerRounds; i++) {
     await seedProduct();
@@ -39,7 +35,7 @@ const seedUser = async () => {
         lastname: faker.name.lastName(),
         email: faker.internet.email(),
         password: faker.internet.password(),
-        role: faker.random.arrayElement(['ADMIN', 'USER']),
+        role: faker.random.arrayElement(['MERCHANT', 'CUSTOMER']),
         storeId: faker.random.arrayElement(stores).id,
       },
     });
@@ -63,30 +59,10 @@ const seedStore = async () => {
   }
 };
 
-/// Category
-const seedCategory = async () => {
-  try {
-    await prisma.category.create({
-      data: {
-        name: faker.commerce.productMaterial(),
-        description: faker.commerce.productDescription(),
-        mediaUrl: [
-          faker.image.imageUrl(),
-          faker.image.imageUrl(),
-          faker.image.imageUrl(),
-        ],
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 /// Product
 const seedProduct = async () => {
   try {
     const stores = await prisma.store.findMany();
-    const categories = await prisma.category.findMany();
     await prisma.product.create({
       data: {
         name: faker.commerce.productName(),
@@ -98,7 +74,7 @@ const seedProduct = async () => {
           faker.image.imageUrl(),
           faker.image.imageUrl(),
         ],
-        categoryId: faker.random.arrayElement(categories).id,
+        category: faker.random.arrayElement(['TOYS', 'FOOD', 'ACCESSORIES']),
         storeId: faker.random.arrayElement(stores).id,
       },
     });
@@ -114,6 +90,7 @@ const seedOrders = async () => {
     data: {
       userId: faker.random.arrayElement(users).id,
       productId: faker.random.arrayElement(products).id,
+      quantity: faker.datatype.number(5),
     },
   });
 };
