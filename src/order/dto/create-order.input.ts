@@ -1,6 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsEnum, IsInt, IsNotEmpty } from 'class-validator';
-import { Category } from 'src/product/entities/product.entity';
+import { IsInt, IsNotEmpty } from 'class-validator';
 @InputType()
 export class CreateOrderInput {
   @Field()
@@ -14,9 +13,4 @@ export class CreateOrderInput {
   @Field()
   @IsInt()
   quantity: number;
-
-  @Field()
-  @IsNotEmpty()
-  @IsEnum(Category)
-  category: Category;
 }

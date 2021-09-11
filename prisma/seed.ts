@@ -90,7 +90,7 @@ const seedOrders = async () => {
     data: {
       userId: faker.random.arrayElement(users).id,
       productId: faker.random.arrayElement(products).id,
-      quantity: faker.datatype.number(5),
+      quantity: faker.datatype.number({ min: 1, max: 5 }),
     },
   });
 };

@@ -11,28 +11,11 @@ type Auth {
   user: User!
 }
 
-type Cart {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  id: ID!
-  product: Product!
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
-  user: User!
-}
-
-type Category {
-  """Identifies the date and time when the object was created."""
-  createdAt: Date!
-  description: String!
-  id: ID!
-  mediaUrl: [String!]!
-  name: String!
-  products: [Product!]
-
-  """Identifies the date and time when the object was last updated."""
-  updatedAt: Date!
+"""Product category"""
+enum Category {
+  ACCESSORIES
+  FOOD
+  TOYS
 }
 
 input ChangePasswordInput {
@@ -40,19 +23,9 @@ input ChangePasswordInput {
   oldPassword: String!
 }
 
-input CreateCartInput {
-  productId: String!
-  userId: String!
-}
-
-input CreateCategoryInput {
-  description: String!
-  mediaUrl: [String!]!
-  name: String!
-}
-
 input CreateOrderInput {
   productId: String!
+  quantity: Int!
   userId: String!
 }
 
@@ -62,7 +35,7 @@ input CreatePostInput {
 }
 
 input CreateProductInput {
-  categoryId: String!
+  category: String!
   description: String!
   discount: Float!
   mediaUrl: [String!]!
@@ -87,22 +60,16 @@ input LoginInput {
 
 type Mutation {
   changePassword(data: ChangePasswordInput!): User!
-  createCart(createCartInput: CreateCartInput!): Cart!
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createPost(data: CreatePostInput!): Post!
   createProduct(createProductInput: CreateProductInput!): Product!
   createStore(createStoreInput: CreateStoreInput!): Store!
   login(data: LoginInput!): Auth!
   refreshToken(token: String!): Token!
-  removeCart(id: Int!): Cart!
-  removeCategory(id: String!): Category!
   removeOrder(id: ID!): Order!
   removeProduct(id: String!): Product!
   removeStore(id: Int!): Store!
   signup(data: SignupInput!): Auth!
-  updateCart(updateCartInput: UpdateCartInput!): Cart!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
   updateStore(updateStoreInput: UpdateStoreInput!): Store!
@@ -110,10 +77,13 @@ type Mutation {
 }
 
 type Order {
+  category: String!
+
   """Identifies the date and time when the object was created."""
   createdAt: Date!
   id: ID!
   productId: String!
+  quantity: Int!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: Date!
@@ -193,14 +163,11 @@ type Product {
 }
 
 type Query {
-  cart(id: Int!): Cart!
-  categories: [Category!]!
-  category(id: String!): Category!
   hello(name: String!): String!
   helloWorld: String!
   me: User!
   order(id: ID!): Order!
-  orders: [Order!]!
+  orders(id: ID!): [Order!]!
   post(postId: String!): Post!
   product(id: ID!): Product!
   products: [Product!]!
@@ -212,8 +179,8 @@ type Query {
 
 """User role"""
 enum Role {
-  ADMIN
-  USER
+  CUSTOMER
+  MERCHANT
 }
 
 input SignupInput {
@@ -246,27 +213,15 @@ type Token {
   refreshToken: String!
 }
 
-input UpdateCartInput {
-  id: Int!
-  productId: String
-  userId: String
-}
-
-input UpdateCategoryInput {
-  description: String
-  id: String!
-  mediaUrl: [String!]
-  name: String
-}
-
 input UpdateOrderInput {
   id: ID!
   productId: String
+  quantity: Int
   userId: String
 }
 
 input UpdateProductInput {
-  categoryId: String
+  category: String
   description: String
   discount: Float
   id: String!

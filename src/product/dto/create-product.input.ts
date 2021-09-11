@@ -1,4 +1,6 @@
 import { InputType, Field, Float } from '@nestjs/graphql';
+import { IsEnum } from 'class-validator';
+import { Category } from '../entities/product.entity';
 
 @InputType()
 export class CreateProductInput {
@@ -18,7 +20,8 @@ export class CreateProductInput {
   mediaUrl: string[];
 
   @Field()
-  categoryId: string;
+  @IsEnum(() => Category)
+  category: Category;
 
   @Field()
   storeId: string;

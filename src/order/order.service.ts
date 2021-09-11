@@ -13,7 +13,9 @@ export class OrderService {
   findAll() {
     return this.prismaService.orders.findMany();
   }
-
+  findUserOrders(userId: string) {
+    return this.prismaService.orders.findMany({ where: { userId: userId } });
+  }
   findOne(id: string) {
     return this.prismaService.orders.findFirst({ where: { id: id } });
   }
