@@ -10,12 +10,10 @@ Table User {
   password String [not null]
   firstname String
   lastname String
-  posts Post [not null]
   role Role [not null]
   Store Store
   storeId String
   Orders Orders [not null]
-  Cart Cart [not null]
 }
 
 Table Store {
@@ -29,16 +27,6 @@ Table Store {
   staff User [not null]
 }
 
-Table Category {
-  id String [pk]
-  name String [not null]
-  description String [not null]
-  mediaUrl String [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [default: `now()`, not null]
-  products Product [not null]
-}
-
 Table Product {
   id String [pk]
   name String [not null]
@@ -48,23 +36,10 @@ Table Product {
   mediaUrl String [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [default: `now()`, not null]
-  category Category [not null]
-  categoryId String [not null]
   store Store [not null]
   storeId String [not null]
   Orders Orders [not null]
-  Cart Cart [not null]
-}
-
-Table Post {
-  id String [pk]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
-  published Boolean [not null]
-  title String [not null]
-  content String
-  author User
-  authorId String
+  category Category [not null]
 }
 
 Table Orders {
@@ -75,22 +50,12 @@ Table Orders {
   userId String [not null]
   product Product [not null]
   productId String [not null]
-}
-
-Table Cart {
-  id String [pk]
-  product Product [not null]
-  productId String [not null]
-  user User [not null]
-  userId String [not null]
-  status Status [not null]
-  createdAt DateTime [default: `now()`, not null]
-  updatedAt DateTime [not null]
+  quantity Int [not null]
 }
 
 Enum Role {
-  ADMIN
-  USER
+  MERCHANT
+  CUSTOMER
 }
 
 Enum Status {
@@ -99,18 +64,16 @@ Enum Status {
   DELIEVERED
 }
 
+Enum Category {
+  FOOD
+  ACCESSORIES
+  TOYS
+}
+
 Ref: User.storeId > Store.id
 
-Ref: Product.categoryId > Category.id
-
 Ref: Product.storeId > Store.id
-
-Ref: Post.authorId > User.id
 
 Ref: Orders.userId > User.id
 
 Ref: Orders.productId > Product.id
-
-Ref: Cart.productId > Product.id
-
-Ref: Cart.userId > User.id

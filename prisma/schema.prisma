@@ -20,12 +20,10 @@ model User {
   password  String
   firstname String?
   lastname  String?
-  posts     Post[]
   role      Role
   Store     Store?   @relation(fields: [storeId], references: [id])
   storeId   String?
   Orders    Orders[]
-  Cart      Cart[]
 }
 
 model Store {
@@ -39,16 +37,6 @@ model Store {
   staff       User[]
 }
 
-model Category {
-  id          String    @id @default(cuid())
-  name        String
-  description String
-  mediaUrl    String[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now())
-  products    Product[]
-}
-
 model Product {
   id          String   @id @default(cuid())
   name        String
@@ -58,23 +46,10 @@ model Product {
   mediaUrl    String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  String
   store       Store    @relation(fields: [storeId], references: [id])
   storeId     String
   Orders      Orders[]
-  Cart        Cart[]
-}
-
-model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean
-  title     String
-  content   String?
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String?
+  category    Category
 }
 
 model Orders {
@@ -85,27 +60,22 @@ model Orders {
   userId    String
   product   Product  @relation(fields: [productId], references: [id])
   productId String
+  quantity  Int
 }
 
 enum Role {
-  ADMIN
-  USER
-}
-
-model Cart {
-  id        String   @id @default(cuid())
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  status    Status
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  MERCHANT
+  CUSTOMER
 }
 
 enum Status {
   CART
   BOUGHT
   DELIEVERED
+}
+
+enum Category {
+  FOOD
+  ACCESSORIES
+  TOYS
 }
