@@ -80,7 +80,7 @@ export class PostResolver {
   userPosts(@Args() id: UserIdArgs) {
     return this.prisma.user
       .findUnique({ where: { id: id.userId } })
-      .posts({ where: { published: true } });
+      .Post({ where: { published: true } });
   }
 
   @Query(() => Post)

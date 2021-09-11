@@ -11,7 +11,7 @@ import { ProductService } from './product.service';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
-import { Category } from 'src/category/entities/category.entity';
+// import { Category } from 'src/category/entities/category.entity';
 
 @Resolver(() => Product)
 export class ProductResolver {
@@ -47,8 +47,8 @@ export class ProductResolver {
   removeProduct(@Args('id', { type: () => String }) id: string) {
     return this.productService.remove(id);
   }
-  @ResolveField('category')
-  async category(@Parent() product: Product): Promise<Category> {
-    return this.productService.findOne(product.id).category();
-  }
+  // @ResolveField('category')
+  // async category(@Parent() product: Product): Promise<Category> {
+  //   return this.productService.findOne(product.id).category();
+  // }
 }

@@ -10,11 +10,11 @@ import { DateScalar } from './common/scalars/date.scalar';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './configs/config';
 import { GraphqlConfig } from './configs/config.interface';
-import { CategoryModule } from './category/category.module';
+// import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
 import { OrderModule } from './order/order.module';
-import { CartModule } from './cart/cart.module';
+// import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -40,11 +40,11 @@ import { CartModule } from './cart/cart.module';
     AuthModule,
     UserModule,
     PostModule,
-    CategoryModule,
+    // CategoryModule,
     ProductModule,
     StoreModule,
     OrderModule,
-    CartModule,
+    // CartModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver, DateScalar],
