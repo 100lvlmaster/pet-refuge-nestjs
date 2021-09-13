@@ -62,6 +62,7 @@ model Orders {
   product   Product  @relation(fields: [productId], references: [id])
   productId String
   quantity  Int
+  status    Status   @default(CART)
 }
 
 model Post {

@@ -14,6 +14,7 @@ import { GraphqlConfig } from './configs/config.interface';
 import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
 import { OrderModule } from './order/order.module';
+import { PrismaModule } from 'nestjs-prisma';
 // import { CartModule } from './cart/cart.module';
 
 @Module({
@@ -36,6 +37,9 @@ import { OrderModule } from './order/order.module';
         };
       },
       inject: [ConfigService],
+    }),
+    PrismaModule.forRoot({
+      isGlobal: true,
     }),
     AuthModule,
     UserModule,

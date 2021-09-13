@@ -52,6 +52,7 @@ Table Orders {
   product Product [not null]
   productId String [not null]
   quantity Int [not null]
+  status Status [not null, default: 'CART']
 }
 
 Table Post {
